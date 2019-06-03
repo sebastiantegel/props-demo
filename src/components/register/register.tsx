@@ -14,19 +14,32 @@ interface IRegisterProps {
 
     zoo: IAnimal[];
 
-    dummyClick(): any;
+    dummyClick(text: string): any;
 }
 
-class Register extends React.Component<IRegisterProps, {}> {
+interface IRegisterState {
+    text: string;
+}
+
+class Register extends React.Component<IRegisterProps, IRegisterState> {
     constructor(props: IRegisterProps) {
         super(props);
 
+        this.state = { text: '' };
+
         this.handleClick = this.handleClick.bind(this);
+        this.handleOnChange = this.handleOnChange.bind(this);
     }
 
     handleClick() {
         console.log('Test from Register');
-        this.props.dummyClick();
+        this.props.dummyClick(this.state.text);
+    }
+
+    handleOnChange(event: any) {
+        this.setState({
+            text: event.target.value
+        });
     }
 
     render() {
@@ -44,6 +57,8 @@ class Register extends React.Component<IRegisterProps, {}> {
                 <ul>
                     {animalList}
                 </ul>
+
+                <input value={this.state.text} onChange={this.handleOnChange} />
 
                 <p>
                     <button onClick={this.handleClick}>Klicka på mig</button>
