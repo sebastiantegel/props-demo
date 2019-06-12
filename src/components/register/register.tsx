@@ -19,16 +19,19 @@ interface IRegisterProps {
 
 interface IRegisterState {
     text: string;
+
+    isShown: boolean;
 }
 
 class Register extends React.Component<IRegisterProps, IRegisterState> {
     constructor(props: IRegisterProps) {
         super(props);
 
-        this.state = { text: '' };
+        this.state = { text: '', isShown: false };
 
         this.handleClick = this.handleClick.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
+        this.toggle = this.toggle.bind(this);
     }
 
     handleClick() {
@@ -42,11 +45,23 @@ class Register extends React.Component<IRegisterProps, IRegisterState> {
         });
     }
 
+    toggle() {
+        this.setState((state) => ({
+          isShown: !state.isShown
+        }));
+      }
+
     render() {
         let animalList = [];
 
         for (let i = 0; i < this.props.zoo.length; i++) {
             animalList.push((<li key={i}>{this.props.zoo[i].name} - {this.props.zoo[i].age}</li>));
+        }
+
+        if(!this.state.isShown) {
+            return (<div className="App">
+                <button onClick={this.toggle}>Toggle</button>
+            </div>);
         }
 
         return (
@@ -62,6 +77,10 @@ class Register extends React.Component<IRegisterProps, IRegisterState> {
 
                 <p>
                     <button onClick={this.handleClick}>Klicka på mig</button>
+                </p>
+
+                <p>
+                    <button onClick={this.toggle}>Toggle</button>
                 </p>
             </div>
         );
