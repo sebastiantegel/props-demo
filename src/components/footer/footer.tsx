@@ -1,6 +1,6 @@
 import React from 'react';
 import './footer.css';
-import { Link, NavLink, Redirect } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 
 interface IFooterProps {
@@ -20,6 +20,9 @@ class Footer extends React.Component<IFooterProps, {}> {
                     </li>
                     <li>
                         <NavLink to='/register' activeClassName='active'>Footer thingy</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to='/movies' activeClassName='active'>Movies</NavLink>
                     </li>
                 </ul>
             </div>

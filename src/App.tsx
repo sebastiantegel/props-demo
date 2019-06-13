@@ -5,19 +5,39 @@ import Register, { IAnimal } from './components/register/register';
 import Footer from './components/footer/footer';
 import About from './components/about/about';
 
+import axois from 'axios';
+import Movies from './components/movies/movies';
+
+export interface IMovie {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+}
+
 interface IAppState {
   isShown: boolean;
+
+  movies: IMovie[];
 }
 
 class App extends React.Component<{}, IAppState> {
   constructor() {
     super({});
 
-    this.state = { isShown: false };
+    this.state = { isShown: false, movies: [] };
   }
 
   handleParentClick(textToWrite: string): any {
     console.log('Test from App: ', textToWrite);
+  }
+
+  componentDidMount() {
+    axois.get('https://medieinstitutet-wie-products.azurewebsites.net/api/products').then(results => {
+      console.log(results);
+      this.setState({movies: results.data});
+    });
   }
 
   render() {
@@ -37,7 +57,8 @@ class App extends React.Component<{}, IAppState> {
     return (
       <Switch>
         <Route path='/about' component={About}/>
-        <Route path='/register' render={() => <Register {...props} /> }/> // renders null
+        <Route path='/register' render={() => <Register {...props} /> } />
+        <Route path='/movies' render={() => <Movies movies={this.state.movies} /> } />
         <Route component={Footer}/>
       </Switch>
     );
